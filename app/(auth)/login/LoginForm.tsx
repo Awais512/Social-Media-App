@@ -48,7 +48,7 @@ const LoginForm = () => {
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input placeholder="Email" type="email" {...field} />
+                <Input placeholder="Username" type="text" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
