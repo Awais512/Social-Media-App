@@ -53,26 +53,30 @@ export async function POST(
 ) {
   try {
     const { user: loggedInUser } = await validateRequest();
+
     if (!loggedInUser) {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
-    await prisma.follow.upsert({
-      where: {
-        followerId_followingId: {
+
+    await prisma.$transaction([
+      prisma.follow.upsert({
+        where: {
+          followerId_followingId: {
+            followerId: loggedInUser.id,
+            followingId: userId,
+          },
+        },
+        create: {
           followerId: loggedInUser.id,
           followingId: userId,
         },
-      },
-      create: {
-        followerId: loggedInUser.id,
-        followingId: userId,
-      },
-      update: {},
-    });
+        update: {},
+      }),
+    ]);
 
     return new Response();
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return Response.json({ error: "Internal server error" }, { status: 500 });
   }
 }
