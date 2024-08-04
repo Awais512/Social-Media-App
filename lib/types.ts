@@ -33,6 +33,10 @@ export function getPostDataInclude(loggedInUserId: string) {
   } satisfies Prisma.PostInclude;
 }
 
+export type UserData = Prisma.UserGetPayload<{
+  select: ReturnType<typeof getUserDataSelect>;
+}>;
+
 export type PostData = Prisma.PostGetPayload<{
   include: ReturnType<typeof getPostDataInclude>;
 }>;
