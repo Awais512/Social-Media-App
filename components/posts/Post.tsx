@@ -8,6 +8,7 @@ import { formatRelativeData } from "@/lib/utils";
 import { validateRequest } from "@/auth";
 import PostMoreButton from "./PostMoreButton";
 import { useSession } from "@/app/(main)/SessionProvider";
+import Linkify from "../Linkify";
 
 interface PostProps {
   post: PostData;
@@ -45,7 +46,9 @@ const Post = ({ post }: PostProps) => {
           />
         )}
       </div>
-      <div className="whitespace-pre-line break-words">{post.content}</div>
+      <Linkify>
+        <div className="whitespace-pre-line break-words">{post.content}</div>
+      </Linkify>
     </article>
   );
 };
