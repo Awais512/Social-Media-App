@@ -5,7 +5,6 @@ import Link from "next/link";
 import React from "react";
 import UserAvatar from "../UserAvatar";
 import { cn, formatRelativeData } from "@/lib/utils";
-import { validateRequest } from "@/auth";
 import PostMoreButton from "./PostMoreButton";
 import { useSession } from "@/app/(main)/SessionProvider";
 import Linkify from "../Linkify";
@@ -41,6 +40,7 @@ const Post = ({ post }: PostProps) => {
             <Link
               href={`/posts/${post.id}`}
               className="block text-sm text-muted-foreground hover:underline"
+              suppressHydrationWarning
             >
               {formatRelativeData(post.createdAt)}
             </Link>
