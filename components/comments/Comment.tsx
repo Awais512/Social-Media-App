@@ -4,14 +4,18 @@ import UserTooltip from "../UserTooltip";
 import Link from "next/link";
 import UserAvatar from "../UserAvatar";
 import { formatRelativeData } from "@/lib/utils";
+import CommentMoreButton from "./CommentMoreButton";
+import { useSession } from "@/app/(main)/SessionProvider";
 
 interface CommentProps {
   comment: CommentData;
 }
 
 const Comment = ({ comment }: CommentProps) => {
+  const { user } = useSession();
+
   return (
-    <div className="flex gap-3 py-3">
+    <div className="flex gap-3 py-3 group/comment">
       <span className="hidden sm:inline">
         <UserTooltip user={comment.user}>
           <Link href={`/users/${comment.user.username}`}>
@@ -35,6 +39,12 @@ const Comment = ({ comment }: CommentProps) => {
         </div>
         <div>{comment.content}</div>
       </div>
+      {comment.user.id === user.id && (
+        <CommentMoreButton
+          comment={comment}
+          className="ms-auto opacity-0 transition-opacity group-hover/comment:opacity-100"
+        />
+      )}
     </div>
   );
 };
