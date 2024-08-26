@@ -2,14 +2,10 @@
 
 import { validateRequest } from "@/auth";
 import prisma from "@/lib/prisma";
-import {
-  getCommentDataInclude,
-  getPostDataInclude,
-  PostData,
-} from "@/lib/types";
-import { createCommentSchema, createPostSchema } from "@/lib/validation";
+import { getCommentDataInclude, PostData } from "@/lib/types";
+import { createCommentSchema } from "@/lib/validation";
 
-export const submitPost = async ({
+export const submitComment = async ({
   post,
   content,
 }: {
