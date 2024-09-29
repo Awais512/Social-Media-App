@@ -72,6 +72,13 @@ export async function POST(
         },
         update: {},
       }),
+      prisma.notification.create({
+        data: {
+          issuerId: loggedInUser.id,
+          recipientId: userId,
+          type: "FOLLOW",
+        },
+      }),
     ]);
 
     return new Response();
@@ -90,12 +97,22 @@ export async function DELETE(
     if (!loggedInUser) {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
-    await prisma.follow.deleteMany({
-      where: {
-        followerId: loggedInUser.id,
-        followingId: userId,
-      },
-    });
+
+    await prisma.$transaction([
+      prisma.follow.deleteMany({
+        where: {
+          followerId: loggedInUser.id,
+          followingId: userId,
+        },
+      }),
+      prisma.notification.deleteMany({
+        where: {
+          issuerId: loggedInUser.id,
+          recipientId: userId,
+          type: "FOLLOW",
+        },
+      }),
+    ]);
 
     return new Response();
   } catch (error) {
