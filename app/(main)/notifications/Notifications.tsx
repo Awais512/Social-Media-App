@@ -4,12 +4,13 @@ import InfiniteScrollContainer from "@/components/InfiniteScrollContainer";
 import Post from "@/components/posts/Post";
 import PostsLoadingSkeleton from "@/components/posts/PostsLoadingSkeleton";
 import kyInstance from "@/lib/ky";
-import { PostPage } from "@/lib/types";
+import { NotificationsPage, PostPage } from "@/lib/types";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import React from "react";
+import Notification from "./Notification";
 
-const Bookmarks = () => {
+const Notifications = () => {
   const {
     data,
     fetchNextPage,
@@ -18,27 +19,27 @@ const Bookmarks = () => {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ["post-feed", "bookmarks"],
+    queryKey: ["notifications"],
     queryFn: ({ pageParam }) =>
       kyInstance
         .get(
-          "/api/posts/bookmarked",
+          "/api/notifications",
           pageParam ? { searchParams: { cursor: pageParam } } : {}
         )
-        .json<PostPage>(),
+        .json<NotificationsPage>(),
     initialPageParam: null as string | null,
     getNextPageParam: (lastPage) => lastPage.nextCursor,
   });
 
-  const posts = data?.pages.flatMap((page) => page.posts) || [];
+  const notifications = data?.pages.flatMap((page) => page.notifications) || [];
 
   if (status === "pending") {
     return <PostsLoadingSkeleton />;
   }
 
-  if (status === "success" && !posts.length && !hasNextPage) {
+  if (status === "success" && !notifications.length && !hasNextPage) {
     return (
-      <p className="text-center text-muted-foreground">No bookmarks yet</p>
+      <p className="text-center text-muted-foreground">No notifications yet</p>
     );
   }
 
@@ -51,12 +52,12 @@ const Bookmarks = () => {
       onBottomReached={() => hasNextPage && !isFetching && fetchNextPage()}
       className="space-y-5"
     >
-      {posts.map((post) => (
-        <Post key={post.id} post={post} />
+      {notifications.map((notification) => (
+        <Notification key={notification.id} notification={notification} />
       ))}
       {isFetchingNextPage && <Loader2 className="mx-auto my-3 animate-spin" />}
     </InfiniteScrollContainer>
   );
 };
 
-export default Bookmarks;
+export default Notifications;
