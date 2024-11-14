@@ -123,32 +123,7 @@ model Bookmark {
 }
 ```
 
-## 📁 Project Structure
 
-```
-├── app/
-│   ├── api/            # API routes
-│   │   ├── auth/       # Authentication endpoints
-│   │   ├── posts/      # Post management
-│   │   ├── users/      # User management
-│   │   └── media/      # Media handling
-│   ├── (auth)/         # Auth pages
-│   ├── posts/          # Post pages
-│   ├── profile/        # User profiles
-│   └── notifications/  # Notification center
-├── components/
-│   ├── auth/          # Auth components
-│   ├── posts/         # Post components
-│   ├── notifications/ # Notification components
-│   ├── ui/            # Shadcn UI components
-│   └── shared/        # Shared components
-├── lib/
-│   ├── prisma.ts      # Prisma client
-│   ├── auth.ts        # Auth configuration
-│   ├── uploads.ts     # Media upload handlers
-│   └── utils.ts       # Utility functions
-└── prisma/
-    └── schema.prisma  # Database schema
 ```
 
 ## 🛠️ Setup & Installation
